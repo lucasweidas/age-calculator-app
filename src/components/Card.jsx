@@ -1,19 +1,40 @@
 export default function Card() {
   return (
-    <div>
+    <div className="rounded-3xl rounded-br-[5.5rem] bg-white px-6 pb-11 pt-[3.25rem]">
       <form>
-        <div>
-          <div>
-            <label htmlFor="day">Day</label>
-            <input type="text" id="day" placeholder="DD" />
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-normal uppercase text-neutral-550" htmlFor="day">
+              Day
+            </label>
+            <input
+              className="w-full rounded-lg border-[1px] border-neutral-250 p-3.5 text-neutral-900 placeholder:text-neutral-550"
+              type="text"
+              id="day"
+              placeholder="DD"
+            />
           </div>
-          <div>
-            <label htmlFor="month">Month</label>
-            <input type="text" id="month" placeholder="MM" />
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-normal uppercase text-neutral-550" htmlFor="month">
+              Month
+            </label>
+            <input
+              className="w-full rounded-lg border-[1px] border-neutral-250 p-3.5 text-neutral-900 placeholder:text-neutral-550"
+              type="text"
+              id="month"
+              placeholder="MM"
+            />
           </div>
-          <div>
-            <label htmlFor="year">Year</label>
-            <input type="text" id="year" placeholder="YYYY" />
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-normal uppercase text-neutral-550" htmlFor="year">
+              Year
+            </label>
+            <input
+              className="w-full rounded-lg border-[1px] border-neutral-250 p-3.5 text-neutral-900 placeholder:text-neutral-550"
+              type="text"
+              id="year"
+              placeholder="YYYY"
+            />
           </div>
         </div>
         <div>
