@@ -1,17 +1,4 @@
-const MAX_MONTHS_DAYS = {
-  1: 31,
-  2: 28,
-  3: 31,
-  4: 30,
-  5: 31,
-  6: 30,
-  7: 31,
-  8: 31,
-  9: 30,
-  10: 31,
-  11: 30,
-  12: 31,
-};
+import { MAX_MONTHS_DAYS, isLeapYear } from './time';
 
 export function validateDate(year, month, day) {
   const error = {
@@ -64,8 +51,4 @@ function validateYear(year) {
     return null;
   }
   return 'Must be in the past';
-}
-
-function isLeapYear(year) {
-  return year % 4 === 0;
 }

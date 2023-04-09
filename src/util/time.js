@@ -1,13 +1,46 @@
-export function getPassedTime(year, month, day) {
-  const birthDate = Date.UTC(year, month - 1, day);
-  const now = Date.now();
-  const diff = now - birthDate;
+export const MAX_MONTHS_DAYS = {
+  1: 31,
+  2: 28,
+  3: 31,
+  4: 30,
+  5: 31,
+  6: 30,
+  7: 31,
+  8: 31,
+  9: 30,
+  10: 31,
+  11: 30,
+  12: 31,
+};
 
-  const sec = Math.floor(diff / 1000);
-  const min = Math.floor(sec / 60);
-  const hh = Math.floor(min / 60);
-  const dd = Math.floor(hh / 24);
-  const mm = Math.floor(dd / 30);
-  const yyyy = Math.floor(mm / 12);
-  return { sec, min, hh, dd, mm, yyyy };
+export function isLeapYear(year) {
+  return year % 4 === 0;
+}
+
+export function getPassedTime(year, month, day) {
+  if (isLeapYear(year)) {
+    MAX_MONTHS_DAYS[2] = 29;
+  }
+  const birthDate = new Date(year, month - 1, day);
+  const now = new Date();
+
+  let years = now.getUTCFullYear() - birthDate.getUTCFullYear();
+  let months = now.getUTCMonth() - birthDate.getUTCMonth();
+  let days = now.getUTCDate() - birthDate.getUTCDate();
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  if (days < 0) {
+    if (months > 0) {
+      months--;
+    } else {
+      years--;
+      months = 11;
+    }
+    days += MAX_MONTHS_DAYS[+month];
+  }
+
+  return { years, months, days };
 }
