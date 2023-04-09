@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { validateDate } from '../util/date';
 import { getPassedTime } from '../util/time';
 
@@ -30,60 +30,38 @@ export default function Card() {
     const day = dayRef.current.value;
     const validation = validateDate(year, month, day);
     setError(validation);
-    console.log(validation);
     if (validation.day || validation.month || validation.year) {
       setResult(initialResult);
       return;
     }
-    const birthDate = new Date(year, month - 1, day);
-    // setResult({
-    //   years: birthDate.getFullYear(),
-    //   months: birthDate.getMonth(),
-    //   days: birthDate.getDate(),
-    // });
-    console.log(getPassedTime(year, month, day));
-    console.log(Intl.DateTimeFormat().format(birthDate));
+    const passedTime = getPassedTime(year, month, day);
+    setResult(passedTime);
   }
 
   return (
     <div className="rounded-3xl rounded-br-[5.5rem] bg-white px-6 pb-11 pt-[3.25rem]">
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-3 items-center gap-4 font-bold">
+        <div className="grid grid-cols-3 gap-4 font-bold">
           <div className="flex flex-col gap-1">
-            <label className="text-sm uppercase tracking-[0.15em] text-neutral-550" htmlFor="day">
+            <Label htmlFor="day" error={error.day || error.isInvalidDate}>
               Day
-            </label>
-            <input
-              ref={dayRef}
-              className="w-full rounded-lg border-[1px] border-neutral-250 px-3.5 py-3 text-xl text-neutral-900 placeholder:text-neutral-550"
-              type="text"
-              id="day"
-              placeholder="DD"
-            />
+            </Label>
+            <Input ref={dayRef} id="day" placeholder="MM" error={error.day || error.isInvalidDate} />
+            {error.day && <Error error={error.day} />}
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm uppercase tracking-[0.15em] text-neutral-550" htmlFor="month">
+            <Label htmlFor="month" error={error.month || error.isInvalidDate}>
               Month
-            </label>
-            <input
-              ref={monthRef}
-              className="w-full rounded-lg border-[1px] border-neutral-250 px-3.5 py-3 text-xl text-neutral-900 placeholder:text-neutral-550"
-              type="text"
-              id="month"
-              placeholder="MM"
-            />
+            </Label>
+            <Input ref={monthRef} id="month" placeholder="MM" error={error.month || error.isInvalidDate} />
+            {error.month && <Error error={error.month} />}
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm uppercase tracking-[0.15em] text-neutral-550" htmlFor="year">
+            <Label htmlFor="year" error={error.year || error.isInvalidDate}>
               Year
-            </label>
-            <input
-              ref={yearRef}
-              className="w-full rounded-lg border-[1px] border-neutral-250 px-3.5 py-3 text-xl text-neutral-900 placeholder:text-neutral-550"
-              type="text"
-              id="year"
-              placeholder="YYYY"
-            />
+            </Label>
+            <Input ref={yearRef} id="year" placeholder="YYYY" error={error.year || error.isInvalidDate} />
+            {error.year && <Error error={error.year} />}
           </div>
         </div>
         <div className="relative isolate my-8 flex items-center justify-center before:absolute before:-z-[1] before:h-0.5 before:w-full before:bg-neutral-150">
@@ -111,4 +89,34 @@ export default function Card() {
       </div>
     </div>
   );
+}
+
+function Label({ children, htmlFor, error }) {
+  let styles = 'text-sm uppercase tracking-[0.15em]';
+  if (error) {
+    styles += ' text-red-450';
+  } else {
+    styles += ' text-neutral-550';
+  }
+
+  return (
+    <label className={styles} htmlFor={htmlFor}>
+      {children}
+    </label>
+  );
+}
+
+const Input = forwardRef(function Input({ error, id, placeholder, type }, ref) {
+  let styles = 'w-full rounded-lg border-[1px] px-3.5 py-3 text-xl text-neutral-900 placeholder:text-neutral-550';
+  if (error) {
+    styles += ' border-red-450';
+  } else {
+    styles += ' border-neutral-250';
+  }
+
+  return <input ref={ref} className={styles} type={type || 'text'} id={id} placeholder={placeholder} />;
+});
+
+function Error({ error }) {
+  return <p className="mt-0.5 text-xs font-normal italic text-red-450">{error}</p>;
 }
