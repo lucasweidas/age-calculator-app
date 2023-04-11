@@ -50,5 +50,8 @@ function validateYear(year) {
   if (year <= today.getUTCFullYear()) {
     return null;
   }
+  if (!/^\d+$/.test(year)) {
+    return 'Must be a valid year';
+  }
   return 'Must be in the past';
 }
