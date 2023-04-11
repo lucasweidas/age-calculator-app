@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
       },
+      fontSize: {
+        xlClamp: 'clamp(2rem,13vw,3rem)',
+      },
       colors: {
         red: {
           450: 'hsl(0, 100%, 67%)',
@@ -19,6 +22,9 @@ export default {
           550: 'hsl(0, 1%, 44%)',
           900: 'hsl(0, 0%, 8%)',
         },
+      },
+      screens: {
+        xsm: '370px',
       },
     },
   },
